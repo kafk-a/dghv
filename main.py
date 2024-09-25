@@ -20,7 +20,10 @@ class DGHV:
         # Generate the secret key
         # self.lam = lam
         # self.p = random.getrandbits(lam ** 2) | 1  # Ensure it's odd by setting LSB to 1
-        self.p = random.randrange(10000,20000,1)
+        p = random.randrange(10000,20000,1)
+        if p % 2 == 0:
+            p+=1        
+        self.p = p
 
         print(f"Secret key (p): {self.p}")
 
