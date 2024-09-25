@@ -20,7 +20,7 @@ class DGHV:
         # self.gam = gam
         
         # Generate the secret key
-        self.p = random.randrange(10000,20000,1 )
+        self.p = random.randrange(10000,20000,1)
 
         print(f"Secret key (p): {self.p}")
 
@@ -33,7 +33,7 @@ class DGHV:
             raise ValueError("Message must be 0 or 1.")
 
         # Noise is a small random integer
-        noise = random.randint(1,10)
+        noise = random.randrange(1,10,2)
 
         # Random large integer q
         q = random.randint(10000, 20000)
