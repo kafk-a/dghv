@@ -14,6 +14,10 @@ class SimpleUI:
         self.label = tk.Label(root, text="DGHV Homomorphic Encryption")
         self.label.pack()
 
+        # Display the key 'p' (the secret key) in the UI
+        self.key_label = tk.Label(root, text=f"Secret Key (p): {self.dghv.p}")
+        self.key_label.pack()
+
         # Button to encrypt a bit message
         self.encrypt_button = tk.Button(root, text="Encrypt a bit message", command=self.encrypt_message)
         self.encrypt_button.pack()

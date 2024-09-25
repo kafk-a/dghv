@@ -8,18 +8,18 @@ from ui import SimpleUI
 sys.set_int_max_str_digits(10000)
 
 class DGHV:
-    def __init__(self):
+    def __init__(self, lam):
         """
         Initialize the public key encryption parameters for the DGHV scheme.
-        rho: Noise parameter (bit-length of the noise).
-        eta: Bit-length of the secret key (prime number p).
-        gam: Bit-length of the modulus for encryption (public key size).
         """
         # self.rho = rho
         # self.eta = eta
         # self.gam = gam
-        
+        # The number of bits is lambda^2
+        # Generate a random integer with num_bits and set the LSB to 1 to make it odd
         # Generate the secret key
+        # self.lam = lam
+        # self.p = random.getrandbits(lam ** 2) | 1  # Ensure it's odd by setting LSB to 1
         self.p = random.randrange(10000,20000,1)
 
         print(f"Secret key (p): {self.p}")
@@ -33,9 +33,11 @@ class DGHV:
             raise ValueError("Message must be 0 or 1.")
 
         # Noise is a small random integer
-        noise = random.randrange(1,10,2)
+        # noise = random.getrandbits(self.lam)
+        noise = random.randrange(1,10)
 
         # Random large integer q
+        # q = random.getrandbits(self.lam ** 5) | 1
         q = random.randint(10000, 20000)
 
         # Ciphertext is generated as c = p * q + 2 * noise + m
@@ -98,64 +100,63 @@ class DGHV:
 def main():
     # Set the encryption parameters for DGHV
     # rho, eta, gam = 2, 16, 64  # Adjust parameters as needed
-    dghv = DGHV()
+    # lam = 5 
+    # dghv = DGHV(lam)
 
-    while True:
-        print("\nWhat would you like to do?")
-        print("1. Encrypt a bit message (0 or 1)")
-        print("2. Decrypt a ciphertext")
-        print("3. Add two ciphertexts (homomorphic addition)")
-        print("4. Multiply two ciphertexts (homomorphic multiplication)")
-        print("5. 2-bit adder")
-        print("6. Exit")
+    # while True:
+    #     print("\nWhat would you like to do?")
+    #     print("1. Encrypt a bit message (0 or 1)")
+    #     print("2. Decrypt a ciphertext")
+    #     print("3. Add two ciphertexts (homomorphic addition)")
+    #     print("4. Multiply two ciphertexts (homomorphic multiplication)")
+    #     print("5. 2-bit adder")
+    #     print("6. Exit")
         
-        choice = input("Enter your choice (1-6): ")
+    #     choice = input("Enter your choice (1-6): ")
 
-        if choice == '1':
-            message = int(input("Enter the bit message (0 or 1) to encrypt: "))
-            ciphertext = dghv.encrypt(message)
-            print(f"Encrypted ciphertext: {ciphertext}")
+    #     if choice == '1':
+    #         message = int(input("Enter the bit message (0 or 1) to encrypt: "))
+    #         ciphertext = dghv.encrypt(message)
+    #         print(f"Encrypted ciphertext: {ciphertext}")
 
-        elif choice == '2':
-            ciphertext = int(input("Enter the ciphertext to decrypt: "))
-            decrypted_message = dghv.decrypt(ciphertext)
-            print(f"Decrypted message: {decrypted_message}")
+    #     elif choice == '2':
+    #         ciphertext = int(input("Enter the ciphertext to decrypt: "))
+    #         decrypted_message = dghv.decrypt(ciphertext)
+    #         print(f"Decrypted message: {decrypted_message}")
 
-        elif choice == '3':
-            c1 = int(input("Enter the first ciphertext: "))
-            c2 = int(input("Enter the second ciphertext: "))
-            result_ciphertext = c1+c2
-            print(f"Resulting ciphertext after addition: {result_ciphertext}")
-            decrypted_result = dghv.decrypt(result_ciphertext)
-            print(f"Decrypted result of addition: {decrypted_result}")
+    #     elif choice == '3':
+    #         c1 = int(input("Enter the first ciphertext: "))
+    #         c2 = int(input("Enter the second ciphertext: "))
+    #         result_ciphertext = c1+c2
+    #         print(f"Resulting ciphertext after addition: {result_ciphertext}")
+    #         decrypted_result = dghv.decrypt(result_ciphertext)
+    #         print(f"Decrypted result of addition: {decrypted_result}")
 
-        elif choice == '4':
-            c1 = int(input("Enter the first ciphertext: "))
-            c2 = int(input("Enter the second ciphertext: "))
-            result_ciphertext = c1*c2
-            print(f"Resulting ciphertext after multiplication: {result_ciphertext}")
-            decrypted_result = dghv.decrypt(result_ciphertext)
-            print(f"Decrypted result of multiplication: {decrypted_result}")
+    #     elif choice == '4':
+    #         c1 = int(input("Enter the first ciphertext: "))
+    #         c2 = int(input("Enter the second ciphertext: "))
+    #         result_ciphertext = c1*c2
+    #         print(f"Resulting ciphertext after multiplication: {result_ciphertext}")
+    #         decrypted_result = dghv.decrypt(result_ciphertext)
+    #         print(f"Decrypted result of multiplication: {decrypted_result}")
        
-        elif choice == '5':
-            bit_a1 = int(input("Enter the first bit (a1) of the first 2-bit number: "))
-            bit_a0 = int(input("Enter the second bit (a0) of the first 2-bit number: "))
-            bit_b1 = int(input("Enter the first bit (b1) of the second 2-bit number: "))
-            bit_b0 = int(input("Enter the second bit (b0) of the second 2-bit number: "))
+    #     elif choice == '5':
+    #         bit_a1 = int(input("Enter the first bit (a1) of the first 2-bit number: "))
+    #         bit_a0 = int(input("Enter the second bit (a0) of the first 2-bit number: "))
+    #         bit_b1 = int(input("Enter the first bit (b1) of the second 2-bit number: "))
+    #         bit_b0 = int(input("Enter the second bit (b0) of the second 2-bit number: "))
             
-            result = dghv.full_adder(bit_a0, bit_a1, bit_b0, bit_b1)
-            print(f"Final result (decrypted): {result[0]} {result[1]} {result[2]}")
-        elif choice == '6':
-            print("Goodbye!")
-            break
+    #         result = dghv.full_adder(bit_a0, bit_a1, bit_b0, bit_b1)
+    #         print(f"Final result (decrypted): {result[0]} {result[1]} {result[2]}")
+    #     elif choice == '6':
+    #         print("Goodbye!")
+    #         break
         
-        else:
-            print("Invalid choice. Please try again.")
-
-def main():
-    """Launch the Tkinter UI."""
+    #     else:
+    #         print("Invalid choice. Please try again.")
+    lam = 3
     root = Tk()  # Create the Tkinter root window
-    dghv = DGHV()  # Create an instance of the DGHV encryption scheme
+    dghv = DGHV(lam)  # Create an instance of the DGHV encryption scheme
     app = SimpleUI(root, dghv)  # Launch the UI with the DGHV object
     root.mainloop()  # Start the Tkinter main loop
 
